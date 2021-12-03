@@ -13,3 +13,18 @@ engine = create_engine(
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
+
+
+# # IN ORDER TO RUN THE SQLALCHEMY IN TERMINAL NAVIGATE TO LOCATION OD stocks.db FILE # #
+
+# ```bash
+#    sqlite3 stocks.db
+# ```
+
+# Once logged into the sqlite console:
+
+# ```bash
+#    select * from stocks;  --> displays all fields 
+#    insert into stocks (symbol) values ('AAPL');  --> inserts AAPL into symbol
+#    delete * from stocks; --> delets all entries from stocks.db
+# ```

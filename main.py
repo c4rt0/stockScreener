@@ -32,7 +32,7 @@ def home(request: Request):
         "request":request
         # "someVar": 'BTC'
         })
-def fetch_stock_data(id:int):
+async def fetch_stock_data(id:int):
     db = SessionLocal()
     stock = db.query(Stock).filter(Stock.id == id).first()
     
@@ -41,8 +41,8 @@ def fetch_stock_data(id:int):
     stock.ma200 = yahoo_data.info['twoHundredDayAverage']
     stock.ma50 = yahoo_data.info['fiftyDayAverage']
     stock.price = yahoo_data.info['previousClose']
-    stock.forward_pe = yahoo_data.info['forwardPE']
-    stock.forward_eps = yahoo_data.info['forwardEps']
+    # stock.forward_pe = yahoo_data.info['forwardPE']
+    # stock.forward_eps = yahoo_data.info['forwardEps']
     if yahoo_data.info['dividendYield'] is not None:
         stock.dividend_yield = yahoo_data.info['dividendYield'] * 100
     

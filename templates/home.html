@@ -1,53 +1,100 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="ui input focus">
-    <input type="text" placeholder="P/E Ratio...">
+
+<script>
+$(document).ready(function() {
+    $("#add_symbols").click(function() {
+        $('.ui.modal').modal('show');
+    })
+
+    $("#save").click(function() {
+        var textareaContent = $('#symbols').val();
+        var symbols = textareaContent.split("\n");
+
+        console.log(symbols);
+
+        for (var i = 0; i < symbols.length; ++i) {
+            console.log(symbols[i]);
+
+            $.ajax({
+            url: '/stock',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ "symbol": symbols[i] }),
+            dataType: 'json'
+            });
+        }
+        $('.ui.modal').modal('hide');
+    });
+});
+</script>
+
+<div>
+    <div class="ui input focus">
+        <input type="text" placeholder="P/E Ratio...">
+    </div>
+
+    <div class="ui input focus">
+        <input type="text" placeholder="Dividend Yield...">
+    </div>
+
+    <div class="ui checkbox">
+        <input type="checkbox" name="example">
+        <label>Above 50 Day MA</label>
+    </div>
+
+    <div class="ui checkbox">
+        <input type="checkbox" name="example">
+        <label>Above 200 Day MA</label>
+    </div>
+
+    <button class="ui button primary">Filter</button>
+
+    <button id="add_symbols" class="ui button">Add Symbols</button>
+
+    <table class="ui celled table">
+        <thead>
+        <tr><th>Ticker</th>
+        <th>P/E</th>
+        <th>Dividend Yield</th>
+        </tr></thead>
+        <tbody>
+        <tr>
+            <td data-label="Ticker">MSFT</td>
+            <td data-label="Age">24</td>
+            <td data-label="Job">0</td>
+        </tr>
+        <tr>
+            <td data-label="Ticker">BTCUSD</td>
+            <td data-label="Age">26</td>
+            <td data-label="Job">2</td>
+        </tr>
+        <tr>
+            <td data-label="Ticker">AAPL</td>
+            <td data-label="Age">24</td>
+            <td data-label="Job">4</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="ui modal">
+        <i class="close icon"></i>
+        <div class="header">
+          Add stock symbols
+        </div>
+        <div class="content">
+            <div class="ui form">
+                <div class="field">
+                    <label>Multiple selection available, separate with new line / Enter</label>
+                    <textarea id="symbols"></textarea>
+                </div>
+            </div>
+        
+        </div>
+        <div class="actions">
+          <div id="save" class="ui positive right labeled icon button">Submit<i class="plus icon"></i>
+          </div>
+        </div>
+      </div>
 </div>
 
-<div class="ui input focus">
-    <input type="text" placeholder="Dividend Yield...">
-</div>
-
-<div class="ui checkbox">
-    <input type="checkbox" name="example">
-    <label>Above 50 Day MA</label>
-</div>
-
-<div class="ui checkbox">
-    <input type="checkbox" name="example">
-    <label>Above 200 Day MA</label>
-</div>
-
-<button class="ui button primary">
-    Filter
-</button>
-
-<table class="ui celled table">
-    <thead>
-      <tr><th>Ticker</th>
-      <th>P/E</th>
-      <th>Dividend Yield</th>
-    </tr></thead>
-    <tbody>
-      <tr>
-        <td data-label="Ticker">MSFT</td>
-        <td data-label="Age">24</td>
-        <td data-label="Job">0</td>
-      </tr>
-      <tr>
-        <td data-label="Ticker">BTCUSD</td>
-        <td data-label="Age">26</td>
-        <td data-label="Job">2</td>
-      </tr>
-      <tr>
-        <td data-label="Ticker">AAPL</td>
-        <td data-label="Age">24</td>
-        <td data-label="Job">4</td>
-      </tr>
-    </tbody>
-  </table>
-
-<!-- <h3>
-    this is {{someVar}}
-</h3> -->
 {% endblock %}
